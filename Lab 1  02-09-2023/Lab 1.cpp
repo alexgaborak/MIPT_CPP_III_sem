@@ -81,18 +81,19 @@ int main() {
     Point3D mid = middle(point1, point2);
 
     // Specify the filename containing the Point3D data
-    std::string filename = "points.txt";
+    std::string filename1 = "points1.txt";
+    std::string filename2 = "points2.txt";
 
     // Read the array of Point3D points from the file
-    std::vector<Point3D> points = read_points_from_file(filename);
+    std::vector<Point3D> points = read_points_from_file(filename1);
 
     // Calculate the center of mass (for task 3)
     Point3D center = center_of_mass(points);
 
     // Display the results
-    std::cout << "Center of Mass: (" << center.x << ", " << center.y << ", " << center.z << ")" << std::endl;
+    std::cout << "Center of Mass: (" << center.x << ", " << center.y << ", " << center.z << ")" << "\n" << std::endl;
     std::cout << "Distance between point1 and point2: " << dist << std::endl;
-    std::cout << "Midpoint between point1 and point2: (" << mid.x << ", " << mid.y << ", " << mid.z << ")" << std::endl;
+    std::cout << "Midpoint between point1 and point2: (" << mid.x << ", " << mid.y << ", " << mid.z << ")" << "\n" << std::endl;
 
     // Create matrices for distances and midpoints (Task 4)
     int numPoints = points.size();
@@ -115,6 +116,7 @@ int main() {
         }
         std::cout << std::endl;
     }
+    std::cout << "\n" << std::endl;
 
     // Display the midpoint matrix
     std::cout << "Midpoint Matrix:" << std::endl;
@@ -123,6 +125,23 @@ int main() {
             std::cout << "(" << midpointMatrix[i][j].x << ", " << midpointMatrix[i][j].y << ", " << midpointMatrix[i][j].z << ")\t";
         }
         std::cout << std::endl;
+    }
+    std::cout << "\n" << std::endl;
+
+
+    // Read the arrays of Point3D points from the two files (Task 5)
+    std::vector<Point3D> points1 = read_points_from_file(filename1);
+    std::vector<Point3D> points2 = read_points_from_file(filename2);
+
+    // Combine the arrays
+    std::vector<Point3D> combinedPoints;
+    combinedPoints.insert(combinedPoints.end(), points1.begin(), points1.end());
+    combinedPoints.insert(combinedPoints.end(), points2.begin(), points2.end());
+
+    // Display the combined array of points
+    std::cout << "Combined Array of Points:" << std::endl;
+    for (const Point3D& point : combinedPoints) {
+        std::cout << "(" << point.x << ", " << point.y << ", " << point.z << ")" << std::endl;
     }
 
     return 0;
