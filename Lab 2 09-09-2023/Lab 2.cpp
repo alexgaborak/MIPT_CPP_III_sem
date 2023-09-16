@@ -30,6 +30,22 @@ public:
         delete[] data;
     }
 
+    // Shrink the capacity to match the current number of elements
+    void shrink_to_fit() {
+        if (length < capacity) {
+            size_t newCapacity = length;
+            int *newData = new int[newCapacity];
+
+            for (size_t i = 0; i < length; ++i) {
+                newData[i] = data[i];
+            }
+
+            delete[] data;
+            data = newData;
+            capacity = newCapacity;
+        }
+    }
+
     // Push an element to the back of the vector
     void push_back(int element) {
         if (length >= capacity) {
@@ -71,6 +87,18 @@ public:
                 data[i] = data[i + 1];
             }
             length--;
+            if ( 5 * length < capacity) {
+                size_t newCapacity = length;
+                int *newData = new int[newCapacity];
+
+                for (size_t i = 0; i < length; ++i) {
+                    newData[i] = data[i];
+                }
+
+                delete[] data;
+                data = newData;
+                capacity = newCapacity;
+            }
         } else {
             // Handle out-of-bounds removal
             throw std::out_of_range("Index out of bounds");
