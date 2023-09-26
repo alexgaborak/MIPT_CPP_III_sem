@@ -38,5 +38,3 @@ DispersionRelation const * construct_dispersion_relation_B(double k, double alph
 }
 
     call(b);
-
-}
