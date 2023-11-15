@@ -4,33 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "comparator.h"
 
-// Comparator interface
-template <typename T>
-struct Comparator {
-    virtual bool operator()(const T&, const T&) const = 0;
-};
-
-// Integer comparator implementation
-struct IntComparator final : Comparator<int> {
-    bool operator()(const int& lhs, const int& rhs) const override {
-        return lhs < rhs;
-    }
-};
-
-// String comparator implementation
-struct StringComparator final : Comparator<std::string> {
-    bool operator()(const std::string& lhs, const std::string& rhs) const override {
-        return lhs < rhs;
-    }
-};
-
-// Float comparator implementation
-struct FloatComparator final : Comparator<float> {
-    bool operator()(const float& lhs, const float& rhs) const override {
-        return lhs < rhs;
-    }
-};
 
 // Hoare quicksort implementation
 template <typename T>
