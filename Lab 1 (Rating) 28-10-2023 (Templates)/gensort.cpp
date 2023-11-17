@@ -71,10 +71,14 @@ int main() {
     IntComparator intComparator;
     testSort(intArr, intComparator);
 
+    std::cout << "\n";
+
     // Test with strings
     std::vector<std::string> strArr = {"apple", "orange", "banana", "grape", "kiwi"};
     StringComparator strComparator;
     testSort(strArr, strComparator);
+
+    std::cout << "\n";
 
     // Test with floating-point numbers
     std::vector<float> floatArr = {3.14, 1.1, 2.2, 0.5, 4.0};

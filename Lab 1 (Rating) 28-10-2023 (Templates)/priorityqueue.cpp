@@ -156,8 +156,12 @@ int main() {
     // Test with integers
     testIntPriorityQueue();
 
+    std::cout << "\n";
+
     // Test with strings
     testStringPriorityQueue();
+
+    std::cout << "\n";
 
     // Add more tests for different types as needed
 
