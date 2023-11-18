@@ -1,0 +1,57 @@
+Consider the template of the "Grid" class, which models a two-dimensional grid of arbitrary objects that allow construction by copying (copy-constructible) and copying assignment (copy-assignable):
+
+template <typename T>
+class Grid final {
+public:
+	using valuetype = T;
+	using size_type = unsigned;
+private:
+	T * const data;
+	size_type const y_size, x_size;
+
+	Grid(T *data, size_type y_size, size_type x_size):
+		data(data), y_size(y_size), x_size(x_size){ }
+
+	Grid(Grid<T> const &) = delete;
+	Grid(Grid<T>&&) = delete;
+	Grid<T>& operator=(Grid<T>&) = delete;
+	Grid<T>& operator=(Grid<T>&&) = delete;
+
+	T operator()(size_type y_idx, size_type x_idx) const {
+		return data[y_idx * x_size + x_idx];
+	}
+
+	T& operator()(size_type y_idx, size_type x_idx) {
+		return data[y_idx * x_size + x_idx];
+	}
+
+	Grid<T>& operator=(T const &t) {
+		for (
+			auto it = data, end = data + x_size * y_size;
+			it != end; ++it
+		) *it = t ;
+	return *this;
+	}
+
+	size_type get_y_size() const { return y_size; }
+	size_type get_x_size() const { return x_size; }
+};
+
+
+In its current form, the class does not manage the memory resource on its own. Memory is allocated by an external code and must be freed by an external code.
+
+
+Modify the "Grid" class so that it can independently manage its own memory resource, namely: implement the necessary methods according to the "rule of five". Add the following constructors to the class template:
+
+	1. The Grid constructor(T const &t) with one parameter for implicit type 	conversion (from T to Grid<T>) creates a new
+	1*1 grid with a single element - a copy of t;
+
+	2. constructor with two Grid parameters(size_type y_size, size_type
+	x_size) creates a grid of size y_size*x_size filled with elements of type T 	created by the default constructor (default initialized);
+
+	3. constructor with three Grid parameters(size_type y_size, size_type
+	x_size, T const &t) creates a grid of size x_size*y_size filled with copies 	of the object t;
+
+Note that the grid should work successfully with objects that do not have a constructor without parameters. In this case, we expect that the code using our class (client code) will call constructor number 3.
+
+
