@@ -53,5 +53,8 @@ Modify the "Grid" class so that it can independently manage its own memory resou
 	x_size, T const &t) creates a grid of size x_size*y_size filled with copies 	of the object t;
 
 Note that the grid should work successfully with objects that do not have a constructor without parameters. In this case, we expect that the code using our class (client code) will call constructor number 3.
+____________________________________________________________________________________
+Indexing Operator
+Add an indexing operator to the grid class in such a way that when accessing the grid using the double use of the square brackets operator, we can get the element stored in the grid. Moreover, the following code must be executed successfully:
 
 
