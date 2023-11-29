@@ -53,8 +53,47 @@ Modify the "Grid" class so that it can independently manage its own memory resou
 	x_size, T const &t) creates a grid of size x_size*y_size filled with copies 	of the object t;
 
 Note that the grid should work successfully with objects that do not have a constructor without parameters. In this case, we expect that the code using our class (client code) will call constructor number 3.
-____________________________________________________________________________________
+____________________________________________________________________________
 Indexing Operator
+
 Add an indexing operator to the grid class in such a way that when accessing the grid using the double use of the square brackets operator, we can get the element stored in the grid. Moreover, the following code must be executed successfully:
 
+#include <cassert>
+int main() { 
+	Grid<float> g(3, 2, 0.0f); 
+	assert (3 == g.get_y_size()); 
+	assert (2 == g.get_x_size());
 
+	using gsize_t = Grid <int>::size_type;
+
+	for (gsize_t y_idx = 0; y_idx != g.get_y_size(); ++y_idx)
+		for (gsize_t x_idx = 0; x_idx != g.get_x_size(); ++x_idx)
+			assert (0.0f = g[y_idx][x_idx]); 
+
+	for (gsize_t y_idx = 0; y_idx != g.get_y_size(); ++y_idx) 
+		for (gsize_t x_idx = 0; x_idx != g.get_x_size(); ++x_idx)
+			g[y_idx][x_idx] = 1.0f;
+
+	for (gsize_t y_idx = 0; y_idx != g.get_y_size(); ++y_idx) 
+		for (gsize_t x_idx = 0; x_idx != g.get_x_size(); ++x_idx) 
+			assert (1.0f g(y_idx, x_idx));
+	return 0;
+}
+____________________________________________________________________________
+Multidimensional grids
+
+With the development of the system, it became necessary to operate not only two-dimensional, but also grids of higher dimensions. Implement a template class for working with grids of arbitrary dimensions. The class template should depend on two parameters: the type of stored elements and the dimension of the grid. The stored elements are "copy-constructible" and "copy-assignable". The following code example should work successfully:
+
+Grid<float,3> const g3(2, 3, 4, 1.0f);
+assert (1.0f == g3(1, 1, 1));
+
+Grid<float,2> g2(2, 5, 2.0f);
+assert (2.0f == g2(1, 1));
+
+g2 = g3[1];
+assert (1.0f == g2(1, 1));
+
+Note. As in the previous tasks, the parenthesis operator
+takes exactly the number of arguments, what is the dimension of the grid.
+The indexing operator (square brackets) returns a reference or a copy (depending on the constancy) of a grid of smaller dimension.
+The indexing operator for a grid of dimension 1 (line) returns a reference or a copy of the stored element. The elements stored in the grid must allow construction by copying and assignment by copying, but for the grid itself, movement must also be allowed.

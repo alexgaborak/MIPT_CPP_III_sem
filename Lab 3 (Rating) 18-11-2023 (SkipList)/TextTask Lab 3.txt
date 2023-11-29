@@ -1,0 +1,41 @@
+A list with omissions is a probabilistic dynamic data structure that allows you to perform operations of adding, deleting and searching for an element with an expected average asymptotic complexity of O(logN), where N is the number of elements in the list. Technically, a list with omissions is a number of sorted lists, each of which contains part of the elements and only one contains all the elements. Schematically, a list with omissions can be represented as follows: Figure.
+
+The search for an element in such a data structure is carried out first in the most "rare" list by a simple sequential scan of nodes.
+As soon as the current node is larger than the key, the search returns to the previous element and drops to a lower level. The procedure is repeated until the most "detailed" list is reached.
+
+A perfectly balanced list with gaps at each level
+contains half as many elements, which guarantees an asymptotic
+complexity O(logN). However, balancing would take too long. Instead, a probabilistic mechanism is proposed: when adding a new element randomly with probability p, one of two options is chosen (E = {1 - p, p}): do nothing or add an element to a higher level. The addition procedure continues until a random variable throws out "do nothing" or we add an element to the level K + 1, where K is the current number of levels.
+
+When deleting an element, it should be removed from all levels, no additional balancing is performed. Describe the list with omissions as a class template in C+ +.
+
+template <typename T> class SkipList;
+
+The class must meet the following requirements:
+1. the presence of a default constructor for an empty list without elements;
+2. the presence of a constructor from the iterator range (output iterator), to any other data structure, for example "std::unordered_set";
+3. the presence of a copy constructor and a copy assignment operator;
+4. availability of effective displacement constructor and displacement assignment;
+5. the presence of the "empty" method, which returns "true" if the list is empty, otherwise - "false";
+6. the presence of the "size" method, which returns the current number of items in the list for O(1);
+7. the presence of the "insert" method for inserting a new value with depreciation complexity O(logN);
+8. the presence of an overloaded "insert" method for inserting the iterator range (output iterator);
+9. the presence of an iterator to traverse the list in sorted order for use in standard STL algorithms, the iterator must meet the requirement of "bidirectional iterator";
+10. the presence of a special iterator for traversing the list in the opposite direction (reverse iterator);
+11. the presence of the "find" method to find the position of the key in the list: if the key is found, return the iterator to the value if the key is not found - return the "past-the-end" iterator equal to the end call;
+12. the presence of the "count" method, which returns the number of occurrences of a given key;
+13. the presence of the "lower_bound" method, which returns an iterator for the first element at least the specified one;
+14. the presence of the "upper_bound" method, which returns an iterator for the first element strictly greater than the specified one;
+15. the presence of the "clear" method to delete all list items;
+16. the presence of the "erase" method to delete an item from the list by iterator, when deleting the previously obtained iterators on other list items must remain true;
+17. the presence of an overloaded "erase" method to remove the gap iterators, when deleting previously obtained iterators on other elements of the list must remain true;
+18. provide for the possibility of creating a list with an arbitrary comparator;
+19. provide for the possibility of storing duplicate elements in the list: the "find" method returns the first of the same elements and the "count" method returns the number of occurrences of a duplicate element, when one of the duplicate elements is deleted, the others remain available;
+20. provide the "equal_range" method, which returns the interval of iterators equal to the specified key elements.
+
+
+Important! In all cases, the behavior of methods when passing incorrect iterators or incorrect intervals is undefined!
+
+
+Examination of the list with omissions.
+Based on the created implementation of the list with omissions, test the data structure and evaluate the asymptotic complexity of the search, insert and delete operations. How does the search time change depending on the "p" - the probability of creating a copy of an item in a higher-level list?
