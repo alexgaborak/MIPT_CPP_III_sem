@@ -9,7 +9,7 @@
 
 int main() {
     // Open the output file
-    std::ofstream outputFile("search_p_0.5.txt");
+    std::ofstream outputFile("deletion_p_0.5.txt");
 
     // Seed for random number generation
     std::random_device rd;
@@ -17,7 +17,7 @@ int main() {
 
     // Range of elements to test
     int start = 10;
-    int end = 20000;
+    int end = 30000;
     int increment = 10;
 
     for (int numElements = start; numElements <= end; numElements += increment) {
